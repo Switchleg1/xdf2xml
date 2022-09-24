@@ -1,2 +1,2 @@
-xdf2xml.py input.xdf output.xml SC8S50
+python xdf2xml.py input.xdf output.xml SC8S50
 @pause

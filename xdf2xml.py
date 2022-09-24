@@ -80,8 +80,10 @@ for element in xdfRoot:
         for hdr in element:
             if hdr.tag == "title":
                 table_def["title"] = hdr.text
-                print("Table: " + table_def["title"])
+                print("Table: " + str(table_def["title"]))
             elif hdr.tag == "description":
+                if table_def["title"] is None:
+                    table_def["title"] = str(hdr.text)
                 table_def["description"] = str(hdr.text)
                 print("  Description: " + table_def["description"])
             elif hdr.tag == "CATEGORYMEM":
@@ -94,7 +96,11 @@ for element in xdfRoot:
                 print("  Axis: " + axisID)
                 for axis in hdr:
                     if axis.tag == "EMBEDDEDDATA":
-                        table_def[axisID]["address"] = hex(int(axis.get("mmedaddress"), base=16) + DEF_BASE_OFFSET)
+                        try:
+                            address = int(axis.get("mmedaddress"), base=16)
+                        except:
+                            address = axis.get("mmedaddress")
+                        table_def[axisID]["address"] = hex(address + DEF_BASE_OFFSET)
                         table_def[axisID]["dataSize"] = data_sizes[axis.get("mmedelementsizebits")]
                         table_def[axisID]["order"] = "cr" if axis.get("mmedtypeflags") == "0x02" else "rc"
                         print("    Address: " + str(table_def[axisID]["address"]))
