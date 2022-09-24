@@ -99,7 +99,7 @@ for element in xdfRoot:
                         try:
                             address = int(axis.get("mmedaddress"), base=16)
                         except:
-                            address = axis.get("mmedaddress")
+                            address = 0
                         table_def[axisID]["address"] = hex(address + DEF_BASE_OFFSET)
                         table_def[axisID]["dataSize"] = data_sizes[axis.get("mmedelementsizebits")]
                         table_def[axisID]["order"] = "cr" if axis.get("mmedtypeflags") == "0x02" else "rc"
